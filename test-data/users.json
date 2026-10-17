@@ -1,0 +1,12 @@
+{
+  "validUser": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "password": "Password123!"
+  },
+  "invalidUser": {
+    "email": "invalid_user_999@notfound.com",
+    "password": "WrongPassword123!"
+  }
+}
+
