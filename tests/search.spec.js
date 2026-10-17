@@ -9,15 +9,16 @@ test.describe('Product Search Tests', () => {
     const productsPage = new ProductsPage(page);
 
     await homePage.navigate();
-    await homePage.searchProduct(productsData.searchKeyword);
+    await homePage.searchProduct(productsData.searchProduct.keyword);
 
     await expect(productsPage.productTitles.first()).toBeVisible();
-    await expect(productsPage.productTitles.first()).toContainText(productsData.searchKeyword);
+    await expect(productsPage.productTitles.first()).toContainText(productsData.searchProduct.keyword);
 
-    await productsPage.openProductByName(productsData.productName);
+    await productsPage.openProductByName(productsData.searchProduct.name);
 
-    await expect(productsPage.productNameHeading).toHaveText(productsData.productName);
+    await expect(productsPage.productNameHeading).toHaveText(productsData.searchProduct.name);
     await expect(productsPage.productPrice).toBeVisible();
+
+    await page.screenshot({ path: 'screenshots/product-search-details.png', fullPage: true });
   });
 });
-

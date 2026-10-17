@@ -29,6 +29,8 @@ test.describe('Login Tests', () => {
     await expect(homePage.myAccountLink).toBeVisible();
     await expect(homePage.logoutLink).toBeVisible();
 
+    await page.screenshot({ path: 'screenshots/login-success.png', fullPage: true });
+
     await homePage.clickLogout();
     await expect(homePage.loginLink).toBeVisible();
   });
@@ -41,6 +43,8 @@ test.describe('Login Tests', () => {
 
     await expect(loginPage.errorMessage).toBeVisible();
     await expect(loginPage.errorMessage).toContainText('Login was unsuccessful');
+
+    await page.screenshot({ path: 'screenshots/login-invalid-error.png', fullPage: true });
   });
 
   test('should display validation error when submitting empty credentials', async ({ page }) => {
@@ -49,7 +53,9 @@ test.describe('Login Tests', () => {
     await loginPage.navigate();
     await loginPage.login('', '');
 
-    await expect(loginPage.emailErrorMessage).toBeVisible();
-    await expect(loginPage.emailErrorMessage).toHaveText('Please enter your email');
+    await expect(loginPage.errorMessage).toBeVisible();
+    await expect(loginPage.errorMessage).toContainText('Login was unsuccessful');
+
+    await page.screenshot({ path: 'screenshots/login-empty-error.png', fullPage: true });
   });
 });

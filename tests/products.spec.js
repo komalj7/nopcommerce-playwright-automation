@@ -9,10 +9,11 @@ test.describe('Products Category Tests', () => {
     const productsPage = new ProductsPage(page);
 
     await homePage.navigate();
-    await productsPage.selectCategory(productsData.categoryName);
+    await productsPage.selectCategory(productsData.category.name);
 
-    await expect(page).toHaveURL(/.*computers/);
-    await expect(page.locator('.page-title h1')).toContainText(productsData.categoryName);
+    await expect(page).toHaveURL(/.*books/);
+    await expect(page.locator('.page-title h1')).toContainText(productsData.category.name);
+
+    await page.screenshot({ path: 'screenshots/category-page.png', fullPage: true });
   });
 });
-

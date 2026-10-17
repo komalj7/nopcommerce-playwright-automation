@@ -3,10 +3,11 @@ class CartPage {
     this.page = page;
     this.pageTitle = page.locator('.page-title h1');
     this.cartItems = page.locator('.cart tbody tr');
-    this.productNames = page.locator('.product-name');
+    this.productNames = page.locator('.cart .product a');
     this.quantityInputs = page.locator('.qty-input');
-    this.removeButtons = page.locator('.remove-btn, button.remove-from-cart');
-    this.emptyCartMessage = page.locator('.no-data');
+    this.removeCheckboxes = page.locator('input[name="removefromcart"]');
+    this.updateCartButton = page.locator('input[name="updatecart"]');
+    this.emptyCartMessage = page.locator('.order-summary-content');
     this.termsCheckbox = page.locator('#termsofservice');
     this.checkoutButton = page.locator('#checkout');
   }
@@ -16,7 +17,8 @@ class CartPage {
   }
 
   async removeItem() {
-    await this.removeButtons.first().click();
+    await this.removeCheckboxes.first().check();
+    await this.updateCartButton.click();
   }
 
   async acceptTermsAndCheckout() {
@@ -26,4 +28,3 @@ class CartPage {
 }
 
 module.exports = { CartPage };
-

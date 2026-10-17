@@ -5,8 +5,7 @@
     "password": "Password123!"
   },
   "invalidUser": {
-    "email": "invalid_user_999@notfound.com",
+    "email": "invalid@test.com",
     "password": "WrongPassword123!"
   }
 }
-

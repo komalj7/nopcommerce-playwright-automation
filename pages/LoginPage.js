@@ -1,11 +1,11 @@
 class LoginPage {
   constructor(page) {
     this.page = page;
-    this.emailInput = page.getByLabel('Email:');
-    this.passwordInput = page.getByLabel('Password:');
-    this.loginButton = page.getByRole('button', { name: 'Log in' });
-    this.errorMessage = page.locator('.message-error');
-    this.emailErrorMessage = page.locator('#Email-error');
+    this.emailInput = page.locator('#Email');
+    this.passwordInput = page.locator('#Password');
+    this.loginButton = page.locator('input.login-button');
+    this.errorMessage = page.locator('.validation-summary-errors');
+    this.emailErrorMessage = page.locator('.field-validation-error, span[data-valmsg-for="Email"]');
   }
 
   async navigate() {
@@ -20,4 +20,3 @@ class LoginPage {
 }
 
 module.exports = { LoginPage };
-

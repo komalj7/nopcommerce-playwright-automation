@@ -7,12 +7,17 @@ module.exports = defineConfig({
   retries: 1,
   workers: 1,
   reporter: 'html',
+  timeout: 60000,
+  expect: {
+    timeout: 10000,
+  },
   use: {
-    baseURL: 'https://demo.nopcommerce.com',
+    baseURL: 'https://demowebshop.tricentis.com',
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
-    viewport: { width: 1280, height: 720 },
-    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    headless: false,
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
   },
   projects: [
     {
@@ -29,4 +34,3 @@ module.exports = defineConfig({
     },
   ],
 });
-

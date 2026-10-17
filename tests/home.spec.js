@@ -7,14 +7,15 @@ test.describe('Home Page Tests', () => {
 
     await homePage.navigate();
 
-    await expect(page).toHaveTitle(/nopCommerce demo store/i);
+    await expect(page).toHaveTitle(/Demo Web Shop/i);
     await expect(homePage.logo).toBeVisible();
     await expect(homePage.registerLink).toBeVisible();
     await expect(homePage.loginLink).toBeVisible();
-    await expect(homePage.shoppingCartLink).toBeVisible();
-    await expect(homePage.wishlistLink).toBeVisible();
+    await expect(homePage.shoppingCartHeaderLink).toBeVisible();
+    await expect(homePage.wishlistHeaderLink).toBeVisible();
     await expect(homePage.searchInput).toBeVisible();
     await expect(homePage.topMenu).toBeVisible();
+
+    await page.screenshot({ path: 'screenshots/home-page.png', fullPage: true });
   });
 });
-

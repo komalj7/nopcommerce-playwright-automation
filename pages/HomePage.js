@@ -6,11 +6,11 @@ class HomePage {
     this.loginLink = page.getByRole('link', { name: 'Log in' });
     this.logoutLink = page.getByRole('link', { name: 'Log out' });
     this.myAccountLink = page.getByRole('link', { name: 'My account' });
-    this.wishlistLink = page.locator('.header-links .ico-wishlist');
-    this.shoppingCartLink = page.locator('.header-links .ico-cart');
-    this.searchInput = page.getByPlaceholder('Search store');
-    this.searchButton = page.getByRole('button', { name: 'Search' });
-    this.topMenu = page.locator('.top-menu.notmobile');
+    this.wishlistHeaderLink = page.locator('.header-links .ico-wishlist');
+    this.shoppingCartHeaderLink = page.locator('.header-links .ico-cart');
+    this.searchInput = page.locator('#small-searchterms');
+    this.searchButton = page.locator('input.search-box-button');
+    this.topMenu = page.locator('.top-menu');
   }
 
   async navigate() {
@@ -30,11 +30,11 @@ class HomePage {
   }
 
   async clickWishlist() {
-    await this.wishlistLink.click();
+    await this.wishlistHeaderLink.click();
   }
 
   async clickShoppingCart() {
-    await this.shoppingCartLink.click();
+    await this.shoppingCartHeaderLink.click();
   }
 
   async searchProduct(keyword) {
@@ -44,4 +44,3 @@ class HomePage {
 }
 
 module.exports = { HomePage };
-

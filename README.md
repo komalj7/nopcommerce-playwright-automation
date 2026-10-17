@@ -1,19 +1,19 @@
-# NopCommerce Playwright Automation (JavaScript)
+# NopCommerce / Demo Web Shop Playwright Automation (JavaScript)
 
-A beginner-friendly Playwright test automation project using plain JavaScript and the Page Object Model (POM) pattern for testing the [nopCommerce Demo Store](https://demo.nopcommerce.com/).
+A beginner-friendly Playwright test automation project using plain JavaScript and the Page Object Model (POM) pattern for testing the nopCommerce store (`https://demowebshop.tricentis.com`).
 
 ---
 
 ## 1. Project Overview
 
-This project demonstrates clean, realistic, and beginner-friendly automated end-to-end tests for an e-commerce website using Playwright and standard JavaScript. It uses accessible built-in locators (`getByRole`, `getByLabel`, `getByPlaceholder`, `getByText`) and separates web element selectors and actions into clean Page Object classes.
+This project demonstrates clean, realistic, and beginner-friendly automated end-to-end tests for an e-commerce website using Playwright and standard JavaScript. It uses accessible built-in locators (`getByRole`, `getByLabel`, `locator`), separates web element selectors into Page Object classes, and captures screenshots for all key user actions.
 
 ---
 
 ## 2. Website Under Test
 
-- **Target Website**: [nopCommerce Demo Store](https://demo.nopcommerce.com/)
-- **Note on Cloudflare Protection**: The live public demo domain (`demo.nopcommerce.com`) frequently serves an automated Cloudflare bot challenge ("Just a moment... Performing security verification" / HTTP 403) against automated test runners. See the [Known Environmental Note](#known-environmental-note) section below for details.
+- **Target Website**: [Demo Web Shop (Tricentis nopCommerce)](https://demowebshop.tricentis.com/)
+- **Note**: The live `demo.nopcommerce.com` public domain is protected by Cloudflare bot challenge verification walls which block automated browser sessions. This project uses `https://demowebshop.tricentis.com`, the official older nopCommerce demo platform that has the exact same feature set (register, login, cart, wishlist, checkout) without bot blocks.
 
 ---
 
@@ -29,38 +29,39 @@ This project demonstrates clean, realistic, and beginner-friendly automated end-
 ## 4. Project Structure
 
 ```text
-NopCommercePlaywrightAutomation/
+PlaywrightAutomation/
 │
 ├── pages/
-│   ├── HomePage.js          # Locators and interactions for header & navigation
-│   ├── RegisterPage.js      # User registration form fields and submit action
-│   ├── LoginPage.js         # Login inputs, buttons, and error messages
-│   ├── ProductsPage.js      # Category navigation, product listings & actions
-│   ├── CartPage.js          # Cart items, quantity, removal, and checkout trigger
+│   ├── HomePage.js          # Header navigation, search, and logo locators
+│   ├── RegisterPage.js      # Form fields and actions for user registration
+│   ├── LoginPage.js         # Email/password inputs, login button & error messages
+│   ├── ProductsPage.js      # Category navigation, product view, add to cart/wishlist
+│   ├── CartPage.js          # Cart item inspection, quantity, item removal, checkout
 │   ├── WishlistPage.js      # Wishlist verification and item removal
-│   └── CheckoutPage.js      # Guest checkout steps and order confirmation
+│   └── CheckoutPage.js      # Safe guest checkout form and order confirmation
 │
 ├── tests/
 │   ├── home.spec.js         # Homepage load and navigation element tests
-│   ├── registration.spec.js # User registration with dynamic email
-│   ├── login.spec.js        # Valid, invalid, empty credentials & logout tests
+│   ├── registration.spec.js # User registration flow with dynamic unique email
+│   ├── login.spec.js        # Valid login, logout, invalid credentials, and empty inputs
 │   ├── search.spec.js       # Product search and product details verification
-│   ├── products.spec.js     # Category navigation and product title tests
-│   ├── cart.spec.js         # Add to cart, verify cart item, and remove item
-│   ├── wishlist.spec.js     # Add to wishlist and remove from wishlist
-│   ├── checkout.spec.js     # Complete safe guest checkout flow
-│   └── endToEnd.spec.js     # End-to-end purchasing scenario
+│   ├── products.spec.js     # Category navigation and product title verification
+│   ├── cart.spec.js         # Add product to cart, check presence, remove item
+│   ├── wishlist.spec.js     # Add product to wishlist and remove item
+│   ├── checkout.spec.js     # Safe guest checkout flow (no real payment cards)
+│   └── endToEnd.spec.js     # Complete journey: search -> cart -> guest checkout
 │
 ├── test-data/
-│   ├── users.json           # Sample valid and invalid user credentials
-│   └── products.json        # Test product keywords and category names
+│   ├── users.json           # User credentials for testing
+│   └── products.json        # Test search terms and category names
 │
 ├── utils/
-│   └── helpers.js           # Helper functions (e.g., dynamic unique email generator)
+│   └── helpers.js           # Dynamic timestamp-based unique email generator
 │
-├── playwright.config.js     # Playwright configuration (Chromium, Firefox, WebKit, reports)
-├── package.json             # Node dependencies and npm run scripts
-├── .gitignore               # Git ignore rules for node_modules and test reports
+├── screenshots/             # Automatically saved screenshots from test executions
+│
+├── playwright.config.js     # Pure JavaScript Playwright configuration
+├── package.json             # NPM dependencies & test scripts
 └── README.md                # Project documentation and execution instructions
 ```
 
@@ -69,113 +70,69 @@ NopCommercePlaywrightAutomation/
 ## 5. Test Scenarios Covered
 
 1. **Home Page (`tests/home.spec.js`)**:
-   - Opens the homepage.
-   - Verifies the title and key navigation links (Logo, Register, Login, Cart, Wishlist, Search, Top Menu).
+   - Opens homepage, verifies title and navigation links (Logo, Register, Login, Cart, Wishlist, Search, Top Menu).
+   - Screenshot: `screenshots/home-page.png`
 
 2. **Registration (`tests/registration.spec.js`)**:
-   - Opens the register page.
    - Fills personal details using a dynamically generated unique email to prevent collision.
    - Verifies successful registration confirmation message.
+   - Screenshot: `screenshots/registration-success.png`
 
 3. **Login (`tests/login.spec.js`)**:
-   - Valid login using newly registered credentials followed by logout verification.
-   - Invalid credentials login check with error banner validation.
-   - Empty credentials submission check with input validation message.
+   - 1. Valid login using newly registered credentials + logout verification.
+   - 2. Invalid credentials login check with error banner validation.
+   - 3. Empty credentials submission check with validation message.
+   - Screenshots: `screenshots/login-success.png`, `screenshots/login-invalid-error.png`, `screenshots/login-empty-error.png`
 
 4. **Product Search (`tests/search.spec.js`)**:
-   - Searches for a keyword from `test-data/products.json`.
-   - Verifies that results display matching products and opens the product details.
+   - Searches for product keyword, verifies search results, and opens product details.
+   - Screenshot: `screenshots/product-search-details.png`
 
 5. **Products Category (`tests/products.spec.js`)**:
-   - Navigates through category menu links.
-   - Verifies current category page title and URL.
+   - Navigates through category menu links and verifies current category page title and URL.
+   - Screenshot: `screenshots/category-page.png`
 
 6. **Cart (`tests/cart.spec.js`)**:
-   - Adds a product to the cart.
-   - Opens the shopping cart and verifies the item is present.
-   - Removes the item and verifies the empty cart message.
+   - Adds a product to cart, verifies success notification bar, checks item in cart, removes item, and checks empty cart message.
+   - Screenshots: `screenshots/cart-with-items.png`, `screenshots/cart-empty.png`
 
 7. **Wishlist (`tests/wishlist.spec.js`)**:
-   - Adds a product to the wishlist.
-   - Verifies item presence and removes it from the wishlist.
+   - Adds product to wishlist, verifies presence in table, removes item, and checks empty wishlist message.
+   - Screenshots: `screenshots/wishlist-with-items.png`, `screenshots/wishlist-empty.png`
 
 8. **Checkout (`tests/checkout.spec.js`)**:
-   - Safely tests the guest checkout flow.
-   - Enters billing address, proceeds through standard shipping and payment method steps, and verifies order confirmation.
+   - Safely tests checkout flow: enters billing address, shipping method, cash on delivery payment method, and confirms order.
+   - Screenshot: `screenshots/checkout-order-success.png`
 
 9. **End-to-End (`tests/endToEnd.spec.js`)**:
-   - Covers complete flow: Homepage → Product selection → Add to cart → Cart verification → Guest checkout → Order confirmation.
+   - Full flow: Register account -> Search product -> Add to cart -> Cart verification -> Agree to Terms -> Complete Checkout -> Order Confirmation.
+   - Screenshot: `screenshots/end-to-end-success.png`
 
 ---
 
-## 6. Installation Steps
+## 6. How to Run Tests
 
-1. Clone or open the project folder in your terminal:
+1. **Run all tests (Headed mode - opens browser so you can watch):**
    ```bash
-   cd PlaywrightAutomation
+   npx playwright test --project=chromium
    ```
 
-2. Install dependencies:
+2. **Run in headless mode:**
    ```bash
-   npm install
+   npx playwright test --project=chromium --headed=false
    ```
 
-3. Ensure Playwright browser binaries are installed:
+3. **Run a single test file:**
    ```bash
-   npx playwright install
+   npx playwright test tests/home.spec.js --project=chromium
    ```
 
----
+4. **Open interactive Playwright UI Mode:**
+   ```bash
+   npx playwright test --ui
+   ```
 
-## 7. How to Run All Tests
-
-To execute the entire test suite in headless mode:
-
-```bash
-npx playwright test
-```
-
----
-
-## 8. How to Run a Single Test
-
-To run a specific test file:
-
-```bash
-npx playwright test tests/home.spec.js
-```
-
-Or run against a specific browser (e.g. Chromium):
-
-```bash
-npx playwright test tests/home.spec.js --project=chromium
-```
-
----
-
-## 9. How to Run Tests in Headed Mode
-
-To view the browser window while tests are running:
-
-```bash
-npx playwright test tests/home.spec.js --headed --project=chromium
-```
-
----
-
-## 10. How to Open Playwright HTML Report
-
-After any test run, open the generated interactive HTML report:
-
-```bash
-npx playwright show-report
-```
-
----
-
-## Known Environmental Note
-
-The live public demo store (`https://demo.nopcommerce.com/`) is protected by **Cloudflare Managed Challenge / Bot Detection** (`CF-Mitigated: challenge` / HTTP 403 / "Just a moment... Performing security verification"). When automated browser sessions launch in standard automation mode, Cloudflare intercepts the request and presents a security verification check rather than loading the nopCommerce page content. 
-
-The Page Objects and test specifications in this repository are written and verified to conform to standard nopCommerce web elements and Playwright best practices.
-
+5. **Open HTML Test Report:**
+   ```bash
+   npx playwright show-report
+   ```

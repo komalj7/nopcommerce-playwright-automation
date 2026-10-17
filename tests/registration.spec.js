@@ -20,6 +20,7 @@ test.describe('Registration Tests', () => {
     await expect(registerPage.resultMessage).toBeVisible();
     await expect(registerPage.resultMessage).toHaveText('Your registration completed');
     await expect(registerPage.continueButton).toBeVisible();
+
+    await page.screenshot({ path: 'screenshots/registration-success.png', fullPage: true });
   });
 });
-

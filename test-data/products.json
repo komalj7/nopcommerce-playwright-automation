@@ -1,6 +1,15 @@
 {
-  "searchKeyword": "Build your own computer",
-  "categoryName": "Computers",
-  "productName": "Build your own computer"
+  "searchProduct": {
+    "keyword": "Computing and Internet",
+    "name": "Computing and Internet",
+    "url": "/computing-and-internet"
+  },
+  "wishlistProduct": {
+    "name": "Black & White Diamond Heart",
+    "url": "/black-white-diamond-heart"
+  },
+  "category": {
+    "name": "Books",
+    "url": "/books"
+  }
 }
-
